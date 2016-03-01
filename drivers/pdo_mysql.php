@@ -274,8 +274,10 @@ class wpdb_driver_pdo_mysql extends wpdb_driver {
 
 		if ( !empty( $this->result ) && $this->result->rowCount() > 0 ) {
 			try {
-				while ( $row = $this->result->fetchObject() ) {
+				$row = $this->result->fetchObject();
+				while ( $row ) {
 					$this->fetched_rows[] = $row;
+					$row = $this->result->fetchObject();
 				}
 			} catch ( Exception $e ) {
 			}
