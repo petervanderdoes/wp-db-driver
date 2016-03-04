@@ -15,4 +15,4 @@ before_script:
     - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION $WP_MULTISITE $WPDB_DRIVER
 script:
     - cd /tmp/wordpress
-    - phpunit --group wpdb
+    - phpunit --group dbdelta
