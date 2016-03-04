@@ -222,7 +222,21 @@ class wpdb_driver_pdo_mysql extends wpdb_driver {
 		catch ( Exception $e ) {
 			if ( WP_DEBUG) {
 				global $wpdb;
-				error_log( "Error executing query: " . $e->getCode() . " - " . $e->getMessage() . " in query " . $query );
+				if ( defined('DIR_TESTDATA')) {
+					echo "Error executing query: " .
+					                $e->getCode() .
+					                " - " .
+					                $e->getMessage() .
+					                " in query " .
+					                $query ;
+				} else {
+					error_log( "Error executing query: " .
+					           $e->getCode() .
+					           " - " .
+					           $e->getMessage() .
+					           " in query " .
+					           $query );
+				}
 			}
 			return false;
 		}
