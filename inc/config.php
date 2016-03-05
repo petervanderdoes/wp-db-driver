@@ -4,7 +4,11 @@ class WP_DB_Driver_Config {
 	static $charset = false;
 	static $collate = false;
 
-
+	/**
+	 * Get an array of all the custom drivers this plugin provides
+	 *
+	 * @return array
+	 */
 	public static function get_drivers() {
 		global $wp_custom_drivers;
 
@@ -25,9 +29,10 @@ class WP_DB_Driver_Config {
 	}
 
 	/**
+	 * 
 	 * Getting the driver that is the best possible option.
 	 *
-	 * @return string The classname of the driver
+	 * @return bool|string The classname of the driver. False if no driver is available
 	 */
 	public static function get_current_driver() {
 		$driver  = false;
@@ -75,6 +80,13 @@ class WP_DB_Driver_Config {
 		return false;
 	}
 
+	/**
+	 * Check if the requested class is loaded and supported on the server
+	 * 
+	 * @param string $class
+	 *
+	 * @return bool
+	 */
 	private static function class_is_driver_and_supported( $class ) {
 		if ( class_exists( $class ) && call_user_func( array( $class, 'is_supported' ) ) ) {
 			return true;
