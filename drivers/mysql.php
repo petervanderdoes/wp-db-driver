@@ -3,41 +3,48 @@
 /**
  * Database driver, using the mysql extension.
  *
- * @link http://php.net/manual/en/book.mysql.php
+ * @link       http://php.net/manual/en/book.mysql.php
  *
- * @package WordPress
+ * @package    WordPress
  * @subpackage Database
- * @since 3.6.0
+ * @since      3.6.0
  */
 class wpdb_driver_mysql extends wpdb_driver_mysql_shared {
-
 	/**
 	 * Database link
+	 *
 	 * @var resource
 	 */
 	private $dbh = null;
-
 	/**
 	 * Result set
+	 *
 	 * @var resource
 	 */
 	private $result = null;
-
 	/**
 	 * Cached column info
+	 *
 	 * @var array|null
 	 */
 	private $col_info = null;
 
-
+	/**
+	 * Return the name of the driver
+	 *
+	 * @return string
+	 */
 	public static function get_name() {
 		return 'MySQL';
 	}
-
+	/**
+	 * Check if MySQL is supported on the server
+	 *
+	 * @return bool
+	 */
 	public static function is_supported() {
 		return extension_loaded( 'mysql' );
 	}
-
 
 	/**
 	 * Escape with mysql_real_escape_string()
@@ -45,6 +52,7 @@ class wpdb_driver_mysql extends wpdb_driver_mysql_shared {
 	 * @see mysql_real_escape_string()
 	 *
 	 * @param  string $string to escape
+	 *
 	 * @return string escaped
 	 */
 	public function escape( $string ) {
@@ -76,6 +84,7 @@ class wpdb_driver_mysql extends wpdb_driver_mysql_shared {
 
 	/**
 	 * Check if server is still connected
+	 *
 	 * @return bool
 	 */
 	public function is_connected() {
@@ -88,6 +97,14 @@ class wpdb_driver_mysql extends wpdb_driver_mysql_shared {
 
 	/**
 	 * Connect to database
+	 *
+	 * @param string      $host
+	 * @param string      $dbname
+	 * @param string      $user
+	 * @param string      $pass
+	 * @param integer|null  $port
+	 * @param array $options
+	 *
 	 * @return bool
 	 */
 	public function connect( $host, $dbname, $user, $pass, $port = null, $options = array() ) {
@@ -125,6 +142,7 @@ class wpdb_driver_mysql extends wpdb_driver_mysql_shared {
 
 	/**
 	 * Ping a server connection or reconnect if there is no connection
+	 *
 	 * @return bool
 	 */
 	public function ping() {
@@ -133,6 +151,11 @@ class wpdb_driver_mysql extends wpdb_driver_mysql_shared {
 
 	/**
 	 * Sets the connection's character set.
+	 *
+	 * @param string|null $charset
+	 * @param string|null $collate
+	 *
+	 * @return bool
 	 */
 	public function set_charset( $charset = null, $collate = null ) {
 		if ( ! isset( $charset ) ) {
@@ -168,7 +191,10 @@ class wpdb_driver_mysql extends wpdb_driver_mysql_shared {
 
 	/**
 	 * Select database
-	 * @return void
+	 *
+	 * @param string $db
+	 *
+	 * @return bool
 	 */
 	public function select( $db ) {
 		if ( WP_DEBUG ) {
@@ -180,8 +206,10 @@ class wpdb_driver_mysql extends wpdb_driver_mysql_shared {
 
 	/**
 	 * Perform a MySQL database query, using current database connection.
+	 *
 	 * @param string $query Database query
-	 * @return int|false Number of rows affected/selected or false on error
+	 *
+	 * @return bool|int|resource Number of rows affected/selected or false on error
 	 */
 	public function query( $query ) {
 		$return_val   = 0;
@@ -202,9 +230,11 @@ class wpdb_driver_mysql extends wpdb_driver_mysql_shared {
 
 	/**
 	 * Get result data.
-	 * @param int The row number from the result that's being retrieved. Row numbers start at 0.
-	 * @param int The offset of the field being retrieved.
-	 * @return array|false The contents of one cell from a MySQL result set on success, or false on failure.
+	 *
+	 * @param int $row   The row number from the result that's being retrieved. Row numbers start at 0.
+	 * @param int $field The offset of the field being retrieved.
+	 *
+	 * @return string|false The contents of one cell from a MySQL result set on success, or false on failure.
 	 */
 	public function query_result( $row, $field = 0 ) {
 		return mysql_result( $this->result, $row, $field );
@@ -212,6 +242,7 @@ class wpdb_driver_mysql extends wpdb_driver_mysql_shared {
 
 	/**
 	 * Get number of rows affected
+	 *
 	 * @return int
 	 */
 	public function affected_rows() {
@@ -220,6 +251,7 @@ class wpdb_driver_mysql extends wpdb_driver_mysql_shared {
 
 	/**
 	 * Get last insert id
+	 *
 	 * @return int
 	 */
 	public function insert_id() {
@@ -228,6 +260,7 @@ class wpdb_driver_mysql extends wpdb_driver_mysql_shared {
 
 	/**
 	 * Get results
+	 *
 	 * @return array
 	 */
 	public function get_results() {
@@ -240,6 +273,7 @@ class wpdb_driver_mysql extends wpdb_driver_mysql_shared {
 
 	/**
 	 * Load the column metadata from the last query.
+	 *
 	 * @return array
 	 */
 	public function load_col_info() {
@@ -258,15 +292,19 @@ class wpdb_driver_mysql extends wpdb_driver_mysql_shared {
 
 	/**
 	 * The database version number.
+	 *
 	 * @return false|string false on failure, version number on success
 	 */
 	public function db_version() {
 		return preg_replace( '/[^0-9.].*/', '', mysql_get_server_info( $this->dbh ) );
 	}
 
-
 	/**
 	 * Determine if a database supports a particular feature.
+	 *
+	 * @param string $db_cap
+	 *
+	 * @return bool
 	 */
 	public function has_cap( $db_cap ) {
 		$db_cap = strtolower( $db_cap );
