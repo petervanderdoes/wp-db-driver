@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Set the PHP Error Handling to be handled by internal function
+ * 
+ * @see wp_error_handler
+ * 
+ */
 function wp_set_error_handler() {
 	if ( defined( 'E_DEPRECATED' ) ) {
 		$errcontext = E_WARNING | E_DEPRECATED;
@@ -11,6 +17,14 @@ function wp_set_error_handler() {
 	set_error_handler( 'wp_error_handler', $errcontext );
 }
 
+/**
+ * Handle the errors
+ * @param integer $errno
+ * @param string  $errstr
+ * @param string  $errfile
+ *
+ * @return bool|mixed|void If FALSE then the normal error handler continues
+ */
 function wp_error_handler( $errno, $errstr, $errfile ) {
 	$mysql_file = dirname( dirname( __FILE__ ) ) . '/drivers/mysql.php';
 
