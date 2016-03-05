@@ -6,14 +6,13 @@ require( dirname( __FILE__ ) . '/interface-wp-db-driver.php' );
 require( dirname( __FILE__ ) . '/mysql-shared.php' );
 
 class wpdb_drivers {
-
 	/**
 	 * Whether to show SQL/DB errors
 	 *
 	 * Default behavior is to show errors if both WP_DEBUG and WP_DEBUG_DISPLAY
 	 * evaluated to true.
 	 *
-	 * @since 0.71
+	 * @since  0.71
 	 * @access private
 	 * @var bool
 	 */
@@ -23,7 +22,7 @@ class wpdb_drivers {
 	 * Whether to suppress errors during the DB bootstrapping.
 	 *
 	 * @access private
-	 * @since 2.5.0
+	 * @since  2.5.0
 	 * @var bool
 	 */
 	var $suppress_errors = false;
@@ -39,7 +38,7 @@ class wpdb_drivers {
 	/**
 	 * Amount of queries made
 	 *
-	 * @since 1.2.0
+	 * @since  1.2.0
 	 * @access public
 	 * @var int
 	 */
@@ -48,7 +47,7 @@ class wpdb_drivers {
 	/**
 	 * Count of rows returned by previous query
 	 *
-	 * @since 0.71
+	 * @since  0.71
 	 * @access public
 	 * @var int
 	 */
@@ -57,7 +56,7 @@ class wpdb_drivers {
 	/**
 	 * Count of affected rows by previous query
 	 *
-	 * @since 0.71
+	 * @since  0.71
 	 * @access private
 	 * @var int
 	 */
@@ -66,7 +65,7 @@ class wpdb_drivers {
 	/**
 	 * The ID generated for an AUTO_INCREMENT column by the previous query (usually INSERT).
 	 *
-	 * @since 0.71
+	 * @since  0.71
 	 * @access public
 	 * @var int
 	 */
@@ -75,7 +74,7 @@ class wpdb_drivers {
 	/**
 	 * Last query made
 	 *
-	 * @since 0.71
+	 * @since  0.71
 	 * @access private
 	 * @var array
 	 */
@@ -84,7 +83,7 @@ class wpdb_drivers {
 	/**
 	 * Results of the last query made
 	 *
-	 * @since 0.71
+	 * @since  0.71
 	 * @access private
 	 * @var array|null
 	 */
@@ -93,7 +92,7 @@ class wpdb_drivers {
 	/**
 	 * MySQL result, which is either a resource or boolean.
 	 *
-	 * @since 0.71
+	 * @since  0.71
 	 * @access protected
 	 * @var mixed
 	 */
@@ -102,7 +101,7 @@ class wpdb_drivers {
 	/**
 	 * Cached column info, for sanity checking data before inserting
 	 *
-	 * @since 4.2.0
+	 * @since  4.2.0
 	 * @access protected
 	 * @var array
 	 */
@@ -111,7 +110,7 @@ class wpdb_drivers {
 	/**
 	 * Calculated character sets on tables
 	 *
-	 * @since 4.2.0
+	 * @since  4.2.0
 	 * @access protected
 	 * @var array
 	 */
@@ -120,26 +119,26 @@ class wpdb_drivers {
 	/**
 	 * Whether text fields in the current query need to be sanity checked.
 	 *
-	 * @since 4.2.0
+	 * @since  4.2.0
 	 * @access protected
 	 * @var bool
 	 */
 	protected $check_current_query = true;
 
- 	/** 
-	 * Flag to ensure we don't run into recursion problems when checking the collation. 
-	 * 
-	 * @since 4.2.0 
-	 * @access private 
-	 * @see wpdb::check_safe_collation() 
-	 * @var bool 
-	 */ 
-	private $checking_collation = false; 
+	/**
+	 * Flag to ensure we don't run into recursion problems when checking the collation.
+	 *
+	 * @since  4.2.0
+	 * @access private
+	 * @see    wpdb::check_safe_collation()
+	 * @var bool
+	 */
+	private $checking_collation = false;
 
 	/**
 	 * Saved info on the table column
 	 *
-	 * @since 0.71
+	 * @since  0.71
 	 * @access protected
 	 * @var array
 	 */
@@ -148,21 +147,21 @@ class wpdb_drivers {
 	/**
 	 * Saved queries that were executed
 	 *
-	 * @since 1.5.0
+	 * @since  1.5.0
 	 * @access private
 	 * @var array
 	 */
 	var $queries;
 
-	/** 
-	 * The number of times to retry reconnecting before dying. 
-	 * 
-	 * @since 3.9.0 
-	 * @access protected 
-	 * @see wpdb::check_connection() 
-	 * @var int 
-	 */ 
-	 protected $reconnect_retries = 5; 
+	/**
+	 * The number of times to retry reconnecting before dying.
+	 *
+	 * @since  3.9.0
+	 * @access protected
+	 * @see    wpdb::check_connection()
+	 * @var int
+	 */
+	protected $reconnect_retries = 5;
 
 	/**
 	 * WordPress table prefix
@@ -171,26 +170,25 @@ class wpdb_drivers {
 	 * in a single database. The second reason is for possible
 	 * security precautions.
 	 *
-	 * @since 2.5.0
+	 * @since  2.5.0
 	 * @access public
 	 * @var string
 	 */
 	public $prefix = '';
 
- 
-	/** 
-	 * WordPress base table prefix. 
-	 * 
-	 * @since 3.0.0 
-	 * @access public 
-	 * @var string 
-	 */ 
-	public $base_prefix; 
+	/**
+	 * WordPress base table prefix.
+	 *
+	 * @since  3.0.0
+	 * @access public
+	 * @var string
+	 */
+	public $base_prefix;
 
 	/**
 	 * Whether the database queries are ready to start executing.
 	 *
-	 * @since 2.3.2
+	 * @since  2.3.2
 	 * @access private
 	 * @var bool
 	 */
@@ -199,7 +197,7 @@ class wpdb_drivers {
 	/**
 	 * Blog ID.
 	 *
-	 * @since 3.0.0
+	 * @since  3.0.0
 	 * @access public
 	 * @var int
 	 */
@@ -208,7 +206,7 @@ class wpdb_drivers {
 	/**
 	 * Site ID.
 	 *
-	 * @since 3.0.0
+	 * @since  3.0.0
 	 * @access public
 	 * @var int
 	 */
@@ -217,22 +215,22 @@ class wpdb_drivers {
 	/**
 	 * List of WordPress per-blog tables
 	 *
-	 * @since 2.5.0
+	 * @since  2.5.0
 	 * @access private
-	 * @see wpdb::tables()
+	 * @see    wpdb::tables()
 	 * @var array
 	 */
-	var $tables = array( 'posts', 'comments', 'links', 'options', 'postmeta',
-		'terms', 'term_taxonomy', 'term_relationships', 'termmeta', 'commentmeta' );
+	var $tables = array('posts', 'comments', 'links', 'options', 'postmeta',
+			'terms', 'term_taxonomy', 'term_relationships', 'termmeta', 'commentmeta' );
 
 	/**
 	 * List of deprecated WordPress tables
 	 *
 	 * categories, post2cat, and link2cat were deprecated in 2.3.0, db version 5539
 	 *
-	 * @since 2.9.0
+	 * @since  2.9.0
 	 * @access private
-	 * @see wpdb::tables()
+	 * @see    wpdb::tables()
 	 * @var array
 	 */
 	var $old_tables = array( 'categories', 'post2cat', 'link2cat' );
@@ -240,9 +238,9 @@ class wpdb_drivers {
 	/**
 	 * List of WordPress global tables
 	 *
-	 * @since 3.0.0
+	 * @since  3.0.0
 	 * @access private
-	 * @see wpdb::tables()
+	 * @see    wpdb::tables()
 	 * @var array
 	 */
 	var $global_tables = array( 'users', 'usermeta' );
@@ -250,18 +248,18 @@ class wpdb_drivers {
 	/**
 	 * List of Multisite global tables
 	 *
-	 * @since 3.0.0
+	 * @since  3.0.0
 	 * @access private
-	 * @see wpdb::tables()
+	 * @see    wpdb::tables()
 	 * @var array
 	 */
-	var $ms_global_tables = array( 'blogs', 'signups', 'site', 'sitemeta',
-		'sitecategories', 'registration_log', 'blog_versions' );
+	var $ms_global_tables = array('blogs', 'signups', 'site', 'sitemeta',
+			'sitecategories', 'registration_log', 'blog_versions' );
 
 	/**
 	 * WordPress Comments table
 	 *
-	 * @since 1.5.0
+	 * @since  1.5.0
 	 * @access public
 	 * @var string
 	 */
@@ -270,7 +268,7 @@ class wpdb_drivers {
 	/**
 	 * WordPress Comment Metadata table
 	 *
-	 * @since 2.9.0
+	 * @since  2.9.0
 	 * @access public
 	 * @var string
 	 */
@@ -279,7 +277,7 @@ class wpdb_drivers {
 	/**
 	 * WordPress Links table
 	 *
-	 * @since 1.5.0
+	 * @since  1.5.0
 	 * @access public
 	 * @var string
 	 */
@@ -288,7 +286,7 @@ class wpdb_drivers {
 	/**
 	 * WordPress Options table
 	 *
-	 * @since 1.5.0
+	 * @since  1.5.0
 	 * @access public
 	 * @var string
 	 */
@@ -297,7 +295,7 @@ class wpdb_drivers {
 	/**
 	 * WordPress Post Metadata table
 	 *
-	 * @since 1.5.0
+	 * @since  1.5.0
 	 * @access public
 	 * @var string
 	 */
@@ -306,7 +304,7 @@ class wpdb_drivers {
 	/**
 	 * WordPress Posts table
 	 *
-	 * @since 1.5.0
+	 * @since  1.5.0
 	 * @access public
 	 * @var string
 	 */
@@ -315,7 +313,7 @@ class wpdb_drivers {
 	/**
 	 * WordPress Terms table
 	 *
-	 * @since 2.3.0
+	 * @since  2.3.0
 	 * @access public
 	 * @var string
 	 */
@@ -324,7 +322,7 @@ class wpdb_drivers {
 	/**
 	 * WordPress Term Relationships table
 	 *
-	 * @since 2.3.0
+	 * @since  2.3.0
 	 * @access public
 	 * @var string
 	 */
@@ -333,19 +331,19 @@ class wpdb_drivers {
 	/**
 	 * WordPress Term Taxonomy table
 	 *
-	 * @since 2.3.0
+	 * @since  2.3.0
 	 * @access public
 	 * @var string
 	 */
 	public $term_taxonomy;
- 
-	/** 
-	 * WordPress Term Meta table. 
-	 * 
-	 * @since 4.4.0 
-	 * @access public 
-	 * @var string 
-	 */ 
+
+	/**
+	 * WordPress Term Meta table.
+	 *
+	 * @since  4.4.0
+	 * @access public
+	 * @var string
+	 */
 	public $termmeta;
 
 	//
@@ -355,7 +353,7 @@ class wpdb_drivers {
 	/**
 	 * WordPress User Metadata table
 	 *
-	 * @since 2.3.0
+	 * @since  2.3.0
 	 * @access public
 	 * @var string
 	 */
@@ -364,7 +362,7 @@ class wpdb_drivers {
 	/**
 	 * WordPress Users table
 	 *
-	 * @since 1.5.0
+	 * @since  1.5.0
 	 * @access public
 	 * @var string
 	 */
@@ -373,7 +371,7 @@ class wpdb_drivers {
 	/**
 	 * Multisite Blogs table
 	 *
-	 * @since 3.0.0
+	 * @since  3.0.0
 	 * @access public
 	 * @var string
 	 */
@@ -382,7 +380,7 @@ class wpdb_drivers {
 	/**
 	 * Multisite Blog Versions table
 	 *
-	 * @since 3.0.0
+	 * @since  3.0.0
 	 * @access public
 	 * @var string
 	 */
@@ -391,7 +389,7 @@ class wpdb_drivers {
 	/**
 	 * Multisite Registration Log table
 	 *
-	 * @since 3.0.0
+	 * @since  3.0.0
 	 * @access public
 	 * @var string
 	 */
@@ -400,7 +398,7 @@ class wpdb_drivers {
 	/**
 	 * Multisite Signups table
 	 *
-	 * @since 3.0.0
+	 * @since  3.0.0
 	 * @access public
 	 * @var string
 	 */
@@ -409,7 +407,7 @@ class wpdb_drivers {
 	/**
 	 * Multisite Sites table
 	 *
-	 * @since 3.0.0
+	 * @since  3.0.0
 	 * @access public
 	 * @var string
 	 */
@@ -418,7 +416,7 @@ class wpdb_drivers {
 	/**
 	 * Multisite Sitewide Terms table
 	 *
-	 * @since 3.0.0
+	 * @since  3.0.0
 	 * @access public
 	 * @var string
 	 */
@@ -427,7 +425,7 @@ class wpdb_drivers {
 	/**
 	 * Multisite Site Metadata table
 	 *
-	 * @since 3.0.0
+	 * @since  3.0.0
 	 * @access public
 	 * @var string
 	 */
@@ -438,12 +436,12 @@ class wpdb_drivers {
 	 *
 	 * Keys are column names, values are format types: 'ID' => '%d'
 	 *
-	 * @since 2.8.0
-	 * @see wpdb::prepare()
-	 * @see wpdb::insert()
-	 * @see wpdb::update()
-	 * @see wpdb::delete()
-	 * @see wp_set_wpdb_vars()
+	 * @since  2.8.0
+	 * @see    wpdb::prepare()
+	 * @see    wpdb::insert()
+	 * @see    wpdb::update()
+	 * @see    wpdb::delete()
+	 * @see    wp_set_wpdb_vars()
 	 * @access public
 	 * @var array
 	 */
@@ -452,7 +450,7 @@ class wpdb_drivers {
 	/**
 	 * Database Username
 	 *
-	 * @since 2.9.0
+	 * @since  2.9.0
 	 * @access protected
 	 * @var string
 	 */
@@ -461,7 +459,7 @@ class wpdb_drivers {
 	/**
 	 * Database Password
 	 *
-	 * @since 3.1.0
+	 * @since  3.1.0
 	 * @access protected
 	 * @var string
 	 */
@@ -470,7 +468,7 @@ class wpdb_drivers {
 	/**
 	 * Database Name
 	 *
-	 * @since 3.1.0
+	 * @since  3.1.0
 	 * @access protected
 	 * @var string
 	 */
@@ -479,7 +477,7 @@ class wpdb_drivers {
 	/**
 	 * Database Host
 	 *
-	 * @since 3.1.0
+	 * @since  3.1.0
 	 * @access protected
 	 * @var string
 	 */
@@ -490,9 +488,9 @@ class wpdb_drivers {
 	 *
 	 * Allow for simple, and backwards compatible, pluggable database drivers
 	 * like PDO_mysql and mysqli to power wpdb
-	 * 
+	 *
 	 * @access protected
-	 * @since 0.71
+	 * @since  0.71
 	 * @var wpdb_driver
 	 */
 	protected $dbh;
@@ -500,7 +498,7 @@ class wpdb_drivers {
 	/**
 	 * A textual description of the last query/get_row/get_var call
 	 *
-	 * @since 3.0.0
+	 * @since  3.0.0
 	 * @access public
 	 * @var string
 	 */
@@ -513,7 +511,7 @@ class wpdb_drivers {
 	 * MySQL version for WordPress. Normally, a replacement database drop-in (db.php)
 	 * will skip these checks, but setting this to true will force the checks to occur.
 	 *
-	 * @since 3.3.0
+	 * @since  3.3.0
 	 * @access public
 	 * @var bool
 	 */
@@ -522,13 +520,13 @@ class wpdb_drivers {
 	/**
 	 * Whether we've managed to successfully connect at some point
 	 *
-	 * @since 3.9.0
+	 * @since  3.9.0
 	 * @access private
 	 * @var bool
 	 */
 	private $has_connected = false;
 
- 	/**
+	/**
 	 * Pick the adapter to be used for performing the actual queries.
 	 *
 	 * @since 3.6.0
@@ -567,15 +565,15 @@ class wpdb_drivers {
 	 * the actual setting up of the class properties and connection
 	 * to the database.
 	 *
-	 * @link https://core.trac.wordpress.org/ticket/3354
+	 * @link  https://core.trac.wordpress.org/ticket/3354
 	 * @since 2.0.8
 	 *
 	 * @global string $wp_version
 	 *
-	 * @param string $dbuser     MySQL database user
-	 * @param string $dbpassword MySQL database password
-	 * @param string $dbname     MySQL database name
-	 * @param string $dbhost     MySQL database host
+	 * @param string  $dbuser     MySQL database user
+	 * @param string  $dbpassword MySQL database password
+	 * @param string  $dbname     MySQL database name
+	 * @param string  $dbhost     MySQL database host
 	 */
 	public function __construct( $dbuser, $dbpassword, $dbname, $dbhost ) {
 		if ( ! $this->set_driver() ) {
@@ -601,7 +599,7 @@ class wpdb_drivers {
 	/**
 	 * PHP5 style destructor and will run when database object is destroyed.
 	 *
-	 * @see wpdb::__construct()
+	 * @see   wpdb::__construct()
 	 * @since 2.0.8
 	 * @return true
 	 */
@@ -615,6 +613,7 @@ class wpdb_drivers {
 	 * @since 3.5.0
 	 *
 	 * @param string $name The private member to get, and optionally process
+	 *
 	 * @return mixed The private member
 	 */
 	public function __get( $name ) {
@@ -640,6 +639,8 @@ class wpdb_drivers {
 	 *
 	 * @param string $name  The private member to set
 	 * @param mixed  $value The value to set
+	 *
+	 * @return mixed|void
 	 */
 	public function __set( $name, $value ) {
 		$protected_members = array(
@@ -665,7 +666,7 @@ class wpdb_drivers {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param string $name  The private member to check
+	 * @param string $name The private member to check
 	 *
 	 * @return bool If the member is set or not
 	 */
@@ -682,7 +683,7 @@ class wpdb_drivers {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param string $name  The private member to unset
+	 * @param string $name The private member to unset
 	 */
 	public function __unset( $name ) {
 		unset( $this->$name );
@@ -731,6 +732,7 @@ class wpdb_drivers {
 	 *
 	 * @param string $prefix          Alphanumeric name for the new prefix.
 	 * @param bool   $set_table_names Optional. Whether the table names, e.g. wpdb::$posts, should be updated or not.
+	 *
 	 * @return string|WP_Error Old prefix or WP_Error on error
 	 */
 	public function set_prefix( $prefix, $set_table_names = true ) {
@@ -766,11 +768,12 @@ class wpdb_drivers {
 	/**
 	 * Sets blog id.
 	 *
-	 * @since 3.0.0
+	 * @since  3.0.0
 	 * @access public
 	 *
 	 * @param int $blog_id
 	 * @param int $site_id Optional.
+	 *
 	 * @return int previous blog id
 	 */
 	public function set_blog_id( $blog_id, $site_id = 0 ) {
@@ -795,7 +798,9 @@ class wpdb_drivers {
 	 * Gets blog prefix.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @param int $blog_id Optional.
+	 *
 	 * @return string Blog prefix.
 	 */
 	public function get_blog_prefix( $blog_id = null ) {
@@ -833,15 +838,17 @@ class wpdb_drivers {
 	 * 'old' - returns tables which are deprecated.
 	 *
 	 * @since 3.0.0
-	 * @uses wpdb::$tables
-	 * @uses wpdb::$old_tables
-	 * @uses wpdb::$global_tables
-	 * @uses wpdb::$ms_global_tables
+	 * @uses  wpdb::$tables
+	 * @uses  wpdb::$old_tables
+	 * @uses  wpdb::$global_tables
+	 * @uses  wpdb::$ms_global_tables
 	 *
-	 * @param string $scope   Optional. Can be all, global, ms_global, blog, or old tables. Defaults to all.
-	 * @param bool   $prefix  Optional. Whether to include table prefixes. Default true. If blog
-	 * 	                      prefix is requested, then the custom users and usermeta tables will be mapped.
-	 * @param int    $blog_id Optional. The blog_id to prefix. Defaults to wpdb::$blogid. Used only when prefix is requested.
+	 * @param string $scope     Optional. Can be all, global, ms_global, blog, or old tables. Defaults to all.
+	 * @param bool   $prefix    Optional. Whether to include table prefixes. Default true. If blog
+	 *                          prefix is requested, then the custom users and usermeta tables will be mapped.
+	 * @param int    $blog_id   Optional. The blog_id to prefix. Defaults to wpdb::$blogid. Used only when prefix is
+	 *                          requested.
+	 *
 	 * @return array Table names. When a prefix is requested, the key is the unprefixed table name.
 	 */
 	public function tables( $scope = 'all', $prefix = true, $blog_id = 0 ) {
@@ -910,13 +917,14 @@ class wpdb_drivers {
 	 *
 	 * Use esc_sql() or wpdb::prepare() instead.
 	 *
-	 * @since 2.8.0
+	 * @since      2.8.0
 	 * @deprecated 3.6.0 Use wpdb::prepare()
-	 * @see wpdb::prepare
-	 * @see esc_sql()
-	 * @access private
+	 * @see        wpdb::prepare
+	 * @see        esc_sql()
+	 * @access     private
 	 *
 	 * @param string $string
+	 *
 	 * @return string
 	 */
 	function _weak_escape( $string ) {
@@ -930,10 +938,11 @@ class wpdb_drivers {
 	/**
 	 * Real escape
 	 *
-	 * @since 2.8.0
+	 * @since  2.8.0
 	 * @access private
 	 *
 	 * @param  string $string to escape
+	 *
 	 * @return string escaped
 	 */
 	function _real_escape( $string ) {
@@ -956,11 +965,12 @@ class wpdb_drivers {
 	/**
 	 * Escape data. Works on arrays.
 	 *
-	 * @uses wpdb::_real_escape()
+	 * @uses   wpdb::_real_escape()
 	 * @since  2.8.0
 	 * @access private
 	 *
 	 * @param  string|array $data
+	 *
 	 * @return string|array escaped
 	 */
 	function _escape( $data ) {
@@ -983,12 +993,13 @@ class wpdb_drivers {
 	 *
 	 * Use esc_sql() or wpdb::prepare() instead.
 	 *
-	 * @since 0.71
+	 * @since      0.71
 	 * @deprecated 3.6.0 Use wpdb::prepare()
-	 * @see wpdb::prepare()
-	 * @see esc_sql()
+	 * @see        wpdb::prepare()
+	 * @see        esc_sql()
 	 *
 	 * @param mixed $data
+	 *
 	 * @return mixed
 	 */
 	public function escape( $data ) {
@@ -1011,7 +1022,7 @@ class wpdb_drivers {
 	/**
 	 * Escapes content by reference for insertion into the database, for security
 	 *
-	 * @uses wpdb::_real_escape()
+	 * @uses  wpdb::_real_escape()
 	 *
 	 * @since 2.3.0
 	 *
@@ -1035,9 +1046,9 @@ class wpdb_drivers {
 	 * All of %d, %f, and %s are to be left unquoted in the query string and they need an argument passed for them.
 	 * Literals (%) as parts of the query must be properly written as %%.
 	 *
-	 * This function only supports a small subset of the sprintf syntax; it only supports %d (integer), %f (float), and %s (string).
-	 * Does not support sign, padding, alignment, width or precision specifiers.
-	 * Does not support argument numbering/swapping.
+	 * This function only supports a small subset of the sprintf syntax; it only supports %d (integer), %f (float), and
+	 * %s (string). Does not support sign, padding, alignment, width or precision specifiers. Does not support argument
+	 * numbering/swapping.
 	 *
 	 * May be called like {@link http://php.net/sprintf sprintf()} or like {@link http://php.net/vsprintf vsprintf()}.
 	 *
@@ -1046,15 +1057,19 @@ class wpdb_drivers {
 	 *     wpdb::prepare( "SELECT * FROM `table` WHERE `column` = %s AND `field` = %d", 'foo', 1337 )
 	 *     wpdb::prepare( "SELECT DATE_FORMAT(`field`, '%%c') FROM `table` WHERE `column` = %s", 'foo' );
 	 *
-	 * @link http://php.net/sprintf Description of syntax.
+	 * @link  http://php.net/sprintf Description of syntax.
 	 * @since 2.3.0
 	 *
-	 * @param string      $query    Query statement with sprintf()-like placeholders
-	 * @param array|mixed $args     The array of variables to substitute into the query's placeholders if being called like
-	 * 	                            {@link http://php.net/vsprintf vsprintf()}, or the first variable to substitute into the query's placeholders if
-	 * 	                            being called like {@link http://php.net/sprintf sprintf()}.
-	 * @param mixed       $args,... further variables to substitute into the query's placeholders if being called like
-	 * 	                            {@link http://php.net/sprintf sprintf()}.
+	 * @param string      $query      Query statement with sprintf()-like placeholders
+	 * @param array|mixed $args       The array of variables to substitute into the query's placeholders if being
+	 *                                called like
+	 *                                {@link http://php.net/vsprintf vsprintf()}, or the first variable to substitute
+	 *                                into the query's placeholders if being called like {@link http://php.net/sprintf
+	 *                                sprintf()}.
+	 * @param mixed       $args,...   further variables to substitute into the query's placeholders if being called
+	 *                                like
+	 *                                {@link http://php.net/sprintf sprintf()}.
+	 *
 	 * @return string|void Sanitized query string, if there is a query to prepare.
 	 */
 	public function prepare( $query, $args ) {
@@ -1093,11 +1108,12 @@ class wpdb_drivers {
 	 * Example Escape Chain:
 	 *  $sql  = esc_sql( $wpdb->esc_like( $input ) );
 	 *
-	 * @since 4.0.0
+	 * @since  4.0.0
 	 * @access public
 	 *
 	 * @param string $text The raw text to be escaped. The input typed by the user should have no
 	 *                     extra or deleted slashes.
+	 *
 	 * @return string Text in the form of a LIKE phrase. The output is not SQL safe. Call $wpdb::prepare()
 	 *                or real_escape next.
 	 */
@@ -1111,7 +1127,8 @@ class wpdb_drivers {
 	 * @since 0.71
 	 * @global array $EZSQL_ERROR Stores error information of query and error string
 	 *
-	 * @param string $str The error to display
+	 * @param string $str         The error to display
+	 *
 	 * @return false|void False if the showing of errors is disabled.
 	 */
 	public function print_error( $str = '' ) {
@@ -1175,9 +1192,10 @@ class wpdb_drivers {
 	 * errors.
 	 *
 	 * @since 0.71
-	 * @see wpdb::hide_errors()
+	 * @see   wpdb::hide_errors()
 	 *
 	 * @param bool $show Whether to show or hide errors
+	 *
 	 * @return bool Old value for showing errors.
 	 */
 	public function show_errors( $show = true ) {
@@ -1192,7 +1210,7 @@ class wpdb_drivers {
 	 * By default database errors are not shown.
 	 *
 	 * @since 0.71
-	 * @see wpdb::show_errors()
+	 * @see   wpdb::show_errors()
 	 *
 	 * @return bool Whether showing of errors was active
 	 */
@@ -1209,8 +1227,10 @@ class wpdb_drivers {
 	 * call to this function they can be enabled.
 	 *
 	 * @since 2.5.0
-	 * @see wpdb::hide_errors()
+	 * @see   wpdb::hide_errors()
+	 *
 	 * @param bool $suppress Optional. New value. Defaults to true.
+	 *
 	 * @return bool Old value
 	 */
 	public function suppress_errors( $suppress = true ) {
@@ -1241,10 +1261,10 @@ class wpdb_drivers {
 	 * Connect to and select database.
 	 *
 	 * If $allow_bail is false, the lack of database connection will need
-	 * to be handled manually. 
+	 * to be handled manually.
 	 *
 	 * @since 3.0.0
-	 * @since 3.9.0 $allow_bail parameter added. 
+	 * @since 3.9.0 $allow_bail parameter added.
 	 *
 	 * @param bool $allow_bail Optional. Allows the function to bail. Default true.
 	 *
@@ -1333,13 +1353,13 @@ class wpdb_drivers {
 	 * If this function is unable to reconnect, it will forcibly die, or if after the
 	 * the template_redirect hook has been fired, return false instead.
 	 *
-	 * If $allow_bail is false, the lack of database connection will need 
-	 * to be handled manually. 
+	 * If $allow_bail is false, the lack of database connection will need
+	 * to be handled manually.
 	 *
 	 * @since 3.9.0
 	 *
 	 * @param bool $allow_bail Optional. Allows the function to bail. Default true.
-	 * 
+	 *
 	 * @return bool|void True if the connection is up.
 	 */
 	public function check_connection( $allow_bail = true ) {
@@ -1419,6 +1439,7 @@ class wpdb_drivers {
 	 * @since 0.71
 	 *
 	 * @param string $query Database query
+	 *
 	 * @return int|false Number of rows affected/selected or false on error
 	 */
 	public function query( $query ) {
@@ -1510,10 +1531,10 @@ class wpdb_drivers {
 	/**
 	 * Internal function to perform the query call
 	 *
-	 * @since 3.9.0
+	 * @since  3.9.0
 	 *
 	 * @access private
-	 * @see wpdb::query()
+	 * @see    wpdb::query()
 	 *
 	 * @param string $query The query to run.
 	 */
@@ -1537,17 +1558,20 @@ class wpdb_drivers {
 	 *     wpdb::insert( 'table', array( 'column' => 'foo', 'field' => 1337 ), array( '%s', '%d' ) )
 	 *
 	 * @since 2.5.0
-	 * @see wpdb::prepare()
-	 * @see wpdb::$field_types
-	 * @see wp_set_wpdb_vars()
+	 * @see   wpdb::prepare()
+	 * @see   wpdb::$field_types
+	 * @see   wp_set_wpdb_vars()
 	 *
-	 * @param string       $table  Table name
-	 * @param array        $data   Data to insert (in column => value pairs). Both $data columns and $data values should be "raw" (neither should be SQL escaped).
-	 *                             Sending a null value will cause the column to be set to NULL - the corresponding format is ignored in this case. 
-	 * @param array|string $format Optional. An array of formats to be mapped to each of the value in $data.
-	 *                             If string, that format will be used for all of the values in $data.
-	 * 	                           A format is one of '%d', '%f', '%s' (integer, float, string).
-	 *                             If omitted, all values in $data will be treated as strings unless otherwise specified in wpdb::$field_types.
+	 * @param string       $table    Table name
+	 * @param array        $data     Data to insert (in column => value pairs). Both $data columns and $data values
+	 *                               should be "raw" (neither should be SQL escaped). Sending a null value will cause
+	 *                               the column to be set to NULL - the corresponding format is ignored in this case.
+	 * @param array|string $format   Optional. An array of formats to be mapped to each of the value in $data.
+	 *                               If string, that format will be used for all of the values in $data.
+	 *                               A format is one of '%d', '%f', '%s' (integer, float, string).
+	 *                               If omitted, all values in $data will be treated as strings unless otherwise
+	 *                               specified in wpdb::$field_types.
+	 *
 	 * @return int|false The number of rows inserted, or false on error.
 	 */
 	public function insert( $table, $data, $format = null ) {
@@ -1561,18 +1585,21 @@ class wpdb_drivers {
 	 *     wpdb::replace( 'table', array( 'column' => 'foo', 'field' => 1337 ), array( '%s', '%d' ) )
 	 *
 	 * @since 3.0.0
-	 * @see wpdb::prepare()
-	 * @see wpdb::$field_types
-	 * @see wp_set_wpdb_vars()
+	 * @see   wpdb::prepare()
+	 * @see   wpdb::$field_types
+	 * @see   wp_set_wpdb_vars()
 	 *
 	 * @param string       $table  Table name
 	 * @param array        $data   Data to insert (in column => value pairs).
 	 *                             Both $data columns and $data values should be "raw" (neither should be SQL escaped).
-	 *                             Sending a null value will cause the column to be set to NULL - the corresponding format is ignored in this case.
+	 *                             Sending a null value will cause the column to be set to NULL - the corresponding
+	 *                             format is ignored in this case.
 	 * @param array|string $format Optional. An array of formats to be mapped to each of the value in $data.
 	 *                             If string, that format will be used for all of the values in $data.
 	 *                             A format is one of '%d', '%f', '%s' (integer, float, string).
-	 *                             If omitted, all values in $data will be treated as strings unless otherwise specified in wpdb::$field_types.
+	 *                             If omitted, all values in $data will be treated as strings unless otherwise
+	 *                             specified in wpdb::$field_types.
+	 *
 	 * @return int|false The number of rows affected, or false on error.
 	 */
 	public function replace( $table, $data, $format = null ) {
@@ -1585,20 +1612,23 @@ class wpdb_drivers {
 	 * Runs an insert or replace query based on $type argument.
 	 *
 	 * @access private
-	 * @since 3.0.0
-	 * @see wpdb::prepare()
-	 * @see wpdb::$field_types
-	 * @see wp_set_wpdb_vars()
+	 * @since  3.0.0
+	 * @see    wpdb::prepare()
+	 * @see    wpdb::$field_types
+	 * @see    wp_set_wpdb_vars()
 	 *
 	 * @param string       $table  Table name
 	 * @param array        $data   Data to insert (in column => value pairs).
 	 *                             Both $data columns and $data values should be "raw" (neither should be SQL escaped).
-	 *                             Sending a null value will cause the column to be set to NULL - the corresponding format is ignored in this case.
+	 *                             Sending a null value will cause the column to be set to NULL - the corresponding
+	 *                             format is ignored in this case.
 	 * @param array|string $format Optional. An array of formats to be mapped to each of the value in $data.
 	 *                             If string, that format will be used for all of the values in $data.
 	 *                             A format is one of '%d', '%f', '%s' (integer, float, string).
-	 *                             If omitted, all values in $data will be treated as strings unless otherwise specified in wpdb::$field_types.
-	 * @param string $type         Optional. What type of operation is this? INSERT or REPLACE. Defaults to INSERT.
+	 *                             If omitted, all values in $data will be treated as strings unless otherwise
+	 *                             specified in wpdb::$field_types.
+	 * @param string       $type   Optional. What type of operation is this? INSERT or REPLACE. Defaults to INSERT.
+	 *
 	 * @return int|false The number of rows affected, or false on error.
 	 */
 	function _insert_replace_helper( $table, $data, $format = null, $type = 'INSERT' ) {
@@ -1637,29 +1667,34 @@ class wpdb_drivers {
 	 * Update a row in the table
 	 *
 	 *     wpdb::update( 'table', array( 'column' => 'foo', 'field' => 'bar' ), array( 'ID' => 1 ) )
-	 *     wpdb::update( 'table', array( 'column' => 'foo', 'field' => 1337 ), array( 'ID' => 1 ), array( '%s', '%d' ), array( '%d' ) )
+	 *     wpdb::update( 'table', array( 'column' => 'foo', 'field' => 1337 ), array( 'ID' => 1 ), array( '%s', '%d' ),
+	 *     array( '%d' ) )
 	 *
 	 * @since 2.5.0
-	 * @see wpdb::prepare()
-	 * @see wpdb::$field_types
-	 * @see wp_set_wpdb_vars()
+	 * @see   wpdb::prepare()
+	 * @see   wpdb::$field_types
+	 * @see   wp_set_wpdb_vars()
 	 *
-	 * @param string       $table        Table name
-	 * @param array        $data         Data to update (in column => value pairs). Both $data columns and $data values should be "raw" (neither should be SQL escaped).
-	 *                                   Sending a null value will cause the column to be set to NULL - the corresponding
-	 *                                   format is ignored in this case.
-	 * @param array        $where        A named array of WHERE clauses (in column => value pairs).
-	 *                                   Multiple clauses will be joined with ANDs.
-	 *                                   Both $where columns and $where values should be "raw".
-	 *                                   Sending a null value will create an IS NULL comparison - the corresponding format will be ignored in this case.
-	 * @param array|string $format       Optional. An array of formats to be mapped to each of the values in $data.
-	 *                                   If string, that format will be used for all of the values in $data.
-	 * 	                                 A format is one of '%d', '%f', '%s' (integer, float, string).
-	 *                                   If omitted, all values in $data will be treated as strings unless otherwise specified in wpdb::$field_types.
-	 * @param array|string $where_format Optional. An array of formats to be mapped to each of the values in $where.
-	 *                                   If string, that format will be used for all of the items in $where.
-	 *                                   A format is one of '%d', '%f', '%s' (integer, float, string).
-	 *                                   If omitted, all values in $where will be treated as strings.
+	 * @param string       $table          Table name
+	 * @param array        $data           Data to update (in column => value pairs). Both $data columns and $data
+	 *                                     values should be "raw" (neither should be SQL escaped). Sending a null value
+	 *                                     will cause the column to be set to NULL - the corresponding format is
+	 *                                     ignored in this case.
+	 * @param array        $where          A named array of WHERE clauses (in column => value pairs).
+	 *                                     Multiple clauses will be joined with ANDs.
+	 *                                     Both $where columns and $where values should be "raw".
+	 *                                     Sending a null value will create an IS NULL comparison - the corresponding
+	 *                                     format will be ignored in this case.
+	 * @param array|string $format         Optional. An array of formats to be mapped to each of the values in $data.
+	 *                                     If string, that format will be used for all of the values in $data.
+	 *                                     A format is one of '%d', '%f', '%s' (integer, float, string).
+	 *                                     If omitted, all values in $data will be treated as strings unless otherwise
+	 *                                     specified in wpdb::$field_types.
+	 * @param array|string $where_format   Optional. An array of formats to be mapped to each of the values in $where.
+	 *                                     If string, that format will be used for all of the items in $where.
+	 *                                     A format is one of '%d', '%f', '%s' (integer, float, string).
+	 *                                     If omitted, all values in $where will be treated as strings.
+	 *
 	 * @return int|false The number of rows updated, or false on error.
 	 */
 	public function update( $table, $data, $where, $format = null, $where_format = null ) {
@@ -1716,16 +1751,20 @@ class wpdb_drivers {
 	 *     wpdb::delete( 'table', array( 'ID' => 1 ), array( '%d' ) )
 	 *
 	 * @since 3.4.0
-	 * @see wpdb::prepare()
-	 * @see wpdb::$field_types
-	 * @see wp_set_wpdb_vars()
+	 * @see   wpdb::prepare()
+	 * @see   wpdb::$field_types
+	 * @see   wp_set_wpdb_vars()
 	 *
 	 * @param string       $table        Table name
-	 * @param array        $where        A named array of WHERE clauses (in column => value pairs). Multiple clauses will be joined with ANDs. Both $where columns and $where values should be "raw".
+	 * @param array        $where        A named array of WHERE clauses (in column => value pairs). Multiple clauses
+	 *                                   will be joined with ANDs. Both $where columns and $where values should be
+	 *                                   "raw".
 	 * @param array|string $where_format Optional. An array of formats to be mapped to each of the values in $where.
 	 *                                   If string, that format will be used for all of the items in $where.
 	 *                                   A format is one of '%d', '%f', '%s' (integer, float, string).
-	 *                                   If omitted, all values in $where will be treated as strings unless otherwise specified in wpdb::$field_types.
+	 *                                   If omitted, all values in $where will be treated as strings unless otherwise
+	 *                                   specified in wpdb::$field_types.
+	 *
 	 * @return int|false The number of rows updated, or false on error.
 	 */
 	public function delete( $table, $where, $where_format = null ) {
@@ -1767,12 +1806,13 @@ class wpdb_drivers {
 	 * using that to determine if any invalid text would be stripped. If text is
 	 * stripped, then field processing is rejected and the query fails.
 	 *
-	 * @since 4.2.0
+	 * @since  4.2.0
 	 * @access protected
 	 *
 	 * @param string $table  Table name.
 	 * @param array  $data   Field/value pair.
 	 * @param mixed  $format Format for each field.
+	 *
 	 * @return array|false   Returns an array of fields that contain paired values
 	 *                       and formats. Returns false for invalid values.
 	 */
@@ -1807,11 +1847,12 @@ class wpdb_drivers {
 	/**
 	 * Prepares arrays of value/format pairs as passed to wpdb CRUD methods.
 	 *
-	 * @since 4.2.0
+	 * @since  4.2.0
 	 * @access protected
 	 *
 	 * @param array $data   Array of fields to values.
 	 * @param mixed $format Formats to be mapped to the values in $data.
+	 *
 	 * @return array Array, keyed by field names with values being an array
 	 *               of 'value' and 'format' keys.
 	 */
@@ -1842,13 +1883,14 @@ class wpdb_drivers {
 
 	/**
 	 * Adds field charsets to field/value/format arrays generated by
-	 * the wpdb::process_field_formats() method. 
+	 * the wpdb::process_field_formats() method.
 	 *
-	 * @since 4.2.0
+	 * @since  4.2.0
 	 * @access protected
 	 *
 	 * @param array  $data  As it comes from the wpdb::process_field_formats() method.
 	 * @param string $table Table name.
+	 *
 	 * @return array|false  The same array as $data with additional 'charset' keys.
 	 */
 	protected function process_field_charsets( $data, $table ) {
@@ -1876,11 +1918,12 @@ class wpdb_drivers {
 	/**
 	 * For string fields, record the maximum string length that field can safely save.
 	 *
-	 * @since 4.2.1
+	 * @since  4.2.1
 	 * @access protected
 	 *
 	 * @param array  $data  As it comes from the wpdb::process_field_charsets() method.
 	 * @param string $table Table name.
+	 *
 	 * @return array|false  The same array as $data with additional 'length' keys, or false if
 	 *                      any of the values were too long for their corresponding field.
 	 */
@@ -1906,19 +1949,20 @@ class wpdb_drivers {
 		return $data;
 	}
 
-
 	/**
 	 * Retrieve one variable from the database.
 	 *
 	 * Executes a SQL query and returns the value from the SQL result.
-	 * If the SQL result contains more than one column and/or more than one row, this function returns the value in the column and row specified.
-	 * If $query is null, this function returns the value in the specified column and row from the previous SQL result.
+	 * If the SQL result contains more than one column and/or more than one row, this function returns the value in the
+	 * column and row specified. If $query is null, this function returns the value in the specified column and row
+	 * from the previous SQL result.
 	 *
 	 * @since 0.71
 	 *
 	 * @param string|null $query Optional. SQL query. Defaults to null, use the result from the previous query.
 	 * @param int         $x     Optional. Column of value to return. Indexed from 0.
 	 * @param int         $y     Optional. Row of value to return. Indexed from 0.
+	 *
 	 * @return string|null Database query result (as string), or null on failure
 	 */
 	public function get_var( $query = null, $x = 0, $y = 0 ) {
@@ -1953,7 +1997,8 @@ class wpdb_drivers {
 	 *                            Return an associative array (column => value, ...),
 	 *                            a numerically indexed array (0 => value, ...) or
 	 *                            an object ( ->column = value ), respectively.
-	 * @param int          $y     Optional. Row to return. Indexed from 0.
+	 * @param int         $y      Optional. Row to return. Indexed from 0.
+	 *
 	 * @return array|object|null|void Database query result in format specified by $output or null on failure
 	 */
 	public function get_row( $query = null, $output = OBJECT, $y = 0 ) {
@@ -1999,6 +2044,7 @@ class wpdb_drivers {
 	 *
 	 * @param string|null $query Optional. SQL query. Defaults to previous query.
 	 * @param int         $x     Optional. Column to return. Indexed from 0.
+	 *
 	 * @return array Database query result. Array indexed from 0 by SQL result row number.
 	 */
 	public function get_col( $query = null , $x = 0 ) {
@@ -2026,12 +2072,14 @@ class wpdb_drivers {
 	 *
 	 * @since 0.71
 	 *
-	 * @param string $query  SQL query.
-	 * @param string $output Optional. Any of ARRAY_A | ARRAY_N | OBJECT | OBJECT_K constants.
-	 *                       With one of the first three, return an array of rows indexed from 0 by SQL result row number.
-	 * 	                     Each row is an associative array (column => value, ...), a numerically indexed array (0 => value, ...), or an object. ( ->column = value ), respectively.
-	 * 	                     With OBJECT_K, return an associative array of row objects keyed by the value of each row's first column's value.
-	 *                       Duplicate keys are discarded.
+	 * @param string $query    SQL query.
+	 * @param string $output   Optional. Any of ARRAY_A | ARRAY_N | OBJECT | OBJECT_K constants.
+	 *                         With one of the first three, return an array of rows indexed from 0 by SQL result row
+	 *                         number. Each row is an associative array (column => value, ...), a numerically indexed
+	 *                         array (0 => value, ...), or an object. ( ->column = value ), respectively. With
+	 *                         OBJECT_K, return an associative array of row objects keyed by the value of each row's
+	 *                         first column's value. Duplicate keys are discarded.
+	 *
 	 * @return array|object|null Database query results
 	 */
 	public function get_results( $query = null, $output = OBJECT ) {
@@ -2090,10 +2138,11 @@ class wpdb_drivers {
 	/**
 	 * Retrieves the character set for the given table.
 	 *
-	 * @since 4.2.0
+	 * @since  4.2.0
 	 * @access protected
 	 *
 	 * @param string $table Table name.
+	 *
 	 * @return string|WP_Error Table character set, WP_Error object if it couldn't be found.
 	 */
 	protected function get_table_charset( $table ) {
@@ -2193,11 +2242,12 @@ class wpdb_drivers {
 	/**
 	 * Retrieves the character set for the given column.
 	 *
-	 * @since 4.2.0
+	 * @since  4.2.0
 	 * @access public
 	 *
 	 * @param string $table  Table name.
 	 * @param string $column Column name.
+	 *
 	 * @return string|false|WP_Error Column character set as a string. False if the column has no
 	 *                               character set. WP_Error object if there was an error.
 	 */
@@ -2261,11 +2311,12 @@ class wpdb_drivers {
 	 * Retrieve the maximum string length allowed in a given column.
 	 * The length may either be specified as a byte length or a character length.
 	 *
-	 * @since 4.2.1
+	 * @since  4.2.1
 	 * @access public
 	 *
 	 * @param string $table  Table name.
 	 * @param string $column Column name.
+	 *
 	 * @return array|false|WP_Error array( 'length' => (int), 'type' => 'byte' | 'char' )
 	 *                              false if the column has no length (for example, numeric column)
 	 *                              WP_Error object if there was an error.
@@ -2363,10 +2414,11 @@ class wpdb_drivers {
 	 * The negative regex is faster for non-ASCII strings, as it allows
 	 * the search to finish as soon as it encounters a non-ASCII character.
 	 *
-	 * @since 4.2.0
+	 * @since  4.2.0
 	 * @access protected
 	 *
 	 * @param string $string String to check.
+	 *
 	 * @return bool True if ASCII, false if not.
 	 */
 	protected function check_ascii( $string ) {
@@ -2381,13 +2433,14 @@ class wpdb_drivers {
 		return false;
 	}
 
-    /**
+	/**
 	 * Check if the query is accessing a collation considered safe on the current version of MySQL.
 	 *
-	 * @since 4.2.0
+	 * @since  4.2.0
 	 * @access protected
 	 *
 	 * @param string $query The query to check.
+	 *
 	 * @return bool True if the collation is safe, false if it isn't.
 	 */
 	protected function check_safe_collation( $query ) {
@@ -2444,12 +2497,13 @@ class wpdb_drivers {
 	/**
 	 * Strips any invalid characters based on value/charset pairs.
 	 *
-	 * @since 4.2.0
+	 * @since  4.2.0
 	 * @access protected
 	 *
 	 * @param array $data Array of value arrays. Each value array has the keys
 	 *                    'value' and 'charset'. An optional 'ascii' key can be
 	 *                    set to false to avoid redundant ASCII checks.
+	 *
 	 * @return array|WP_Error The $data parameter, with invalid characters removed from
 	 *                        each value. This works as a passthrough: any additional keys
 	 *                        such as 'field' are retained in each value array. If we cannot
@@ -2602,10 +2656,11 @@ class wpdb_drivers {
 	/**
 	 * Strips any invalid characters from the query.
 	 *
-	 * @since 4.2.0
+	 * @since  4.2.0
 	 * @access protected
 	 *
 	 * @param string $query Query to convert.
+	 *
 	 * @return string|WP_Error The converted query, or a WP_Error object if the conversion fails.
 	 */
 	protected function strip_invalid_text_from_query( $query ) {
@@ -2650,12 +2705,13 @@ class wpdb_drivers {
 	/**
 	 * Strips any invalid characters from the string for a given table and column.
 	 *
-	 * @since 4.2.0
+	 * @since  4.2.0
 	 * @access public
 	 *
 	 * @param string $table  Table name.
 	 * @param string $column Column name.
 	 * @param string $value  The text to check.
+	 *
 	 * @return string|WP_Error The converted string, or a `WP_Error` object if the conversion fails.
 	 */
 	public function strip_invalid_text_for_column( $table, $column, $value ) {
@@ -2693,10 +2749,11 @@ class wpdb_drivers {
 	/**
 	 * Find the first table name referenced in a query.
 	 *
-	 * @since 4.2.0
+	 * @since  4.2.0
 	 * @access protected
 	 *
 	 * @param string $query The query to search.
+	 *
 	 * @return string|false $table The table name found, or false if a table couldn't be found.
 	 */
 	protected function get_table_from_query( $query ) {
@@ -2753,7 +2810,7 @@ class wpdb_drivers {
 	/**
 	 * Load the column metadata from the last query.
 	 *
-	 * @since 3.5.0
+	 * @since  3.5.0
 	 *
 	 * @access protected
 	 */
@@ -2766,8 +2823,11 @@ class wpdb_drivers {
 	 *
 	 * @since 0.71
 	 *
-	 * @param string $info_type  Optional. Type one of name, table, def, max_length, not_null, primary_key, multiple_key, unique_key, numeric, blob, type, unsigned, zerofill
-	 * @param int    $col_offset Optional. 0: col name. 1: which table the col's in. 2: col's max length. 3: if the col is numeric. 4: col's type
+	 * @param string $info_type  Optional. Type one of name, table, def, max_length, not_null, primary_key,
+	 *                           multiple_key, unique_key, numeric, blob, type, unsigned, zerofill
+	 * @param int    $col_offset Optional. 0: col name. 1: which table the col's in. 2: col's max length. 3: if the col
+	 *                           is numeric. 4: col's type
+	 *
 	 * @return mixed Column Results
 	 */
 	public function get_col_info( $info_type = 'name', $col_offset = -1 ) {
@@ -2820,6 +2880,7 @@ class wpdb_drivers {
 	 *
 	 * @param string $message    The Error message
 	 * @param string $error_code Optional. A Computer readable string to identify the error.
+	 *
 	 * @return false|void
 	 */
 	public function bail( $message, $error_code = '500' ) {
@@ -2841,8 +2902,8 @@ class wpdb_drivers {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @uses string $wp_version
-	 * @uses string $required_mysql_version
+	 * @uses  string $wp_version
+	 * @uses  string $required_mysql_version
 	 *
 	 * @return WP_Error|void
 	 */
@@ -2860,7 +2921,7 @@ class wpdb_drivers {
 	 *
 	 * Use `wpdb::has_cap( 'collation' )`.
 	 *
-	 * @since 2.5.0
+	 * @since      2.5.0
 	 * @deprecated 3.5.0 Use wpdb::has_cap()
 	 *
 	 * @return bool True if collation is supported, false if version does not
@@ -2897,11 +2958,12 @@ class wpdb_drivers {
 	 * @since 2.7.0
 	 * @since 4.1.0 Support was added for the 'utf8mb4' feature.
 	 *
-	 * @see wpdb::db_version()
+	 * @see   wpdb::db_version()
 	 *
 	 * @param string $db_cap The feature to check for. Accepts 'collation',
 	 *                       'group_concat', 'subqueries', 'set_charset',
 	 *                       or 'utf8mb4'.
+	 *
 	 * @return int|false Whether the database feature is supported, false otherwise.
 	 */
 	public function has_cap( $db_cap ) {
@@ -2937,8 +2999,6 @@ class wpdb_drivers {
 	/*
 	 * Deprecated methods
 	 */
-
-
 
 	/**
 	 * Sets the connection's character set.
