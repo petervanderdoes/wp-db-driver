@@ -3,53 +3,63 @@
 /**
  * Database driver, using the PDO extension.
  *
- * @link http://php.net/manual/en/book.pdo.php
+ * @link       http://php.net/manual/en/book.pdo.php
  *
- * @package WordPress
+ * @package    WordPress
  * @subpackage Database
- * @since 3.6.0
+ * @since      3.6.0
  */
 class wpdb_driver_pdo_pgsql extends wpdb_driver {
-
 	/**
 	 * Database link
+	 *
 	 * @var PDO
 	 */
 	private $dbh = null;
-
 	/**
 	 * Result set
+	 *
 	 * @var PDOStatement
 	 */
 	private $result = null;
-
 	/**
 	 * Cached column info
+	 *
 	 * @var array|null
 	 */
 	private $col_info = null;
-
 	/**
 	 * Array of fetched rows.
 	 * PDO doesn't have a "count rows" feature, so we have to fetch the rows
 	 * up front, and cache them here
+	 *
 	 * @var array
 	 */
 	private $fetched_rows = array();
 
-
+	/**
+	 * Return the name of the driver
+	 * 
+	 * @return string
+	 */
 	public static function get_name() {
 		return 'PDO - PostgreSQL';
 	}
 
+	/**
+	 * Check if PDO_PGSQL is supported on the server
+	 * @return bool
+	 */
 	public static function is_supported() {
 		return extension_loaded( 'pdo_pgsql' );
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function is_mysql() {
 		return false;
 	}
-
 
 	/**
 	 * Escape with mysql_real_escape_string()
@@ -57,6 +67,7 @@ class wpdb_driver_pdo_pgsql extends wpdb_driver {
 	 * @see PDO::quote()
 	 *
 	 * @param  string $string to escape
+	 *
 	 * @return string escaped
 	 */
 	public function escape( $string ) {
@@ -92,6 +103,7 @@ class wpdb_driver_pdo_pgsql extends wpdb_driver {
 
 	/**
 	 * Check if server is still connected
+	 *
 	 * @return bool
 	 */
 	public function is_connected() {
@@ -104,6 +116,14 @@ class wpdb_driver_pdo_pgsql extends wpdb_driver {
 
 	/**
 	 * Connect to database
+	 *
+	 * @param string       $host
+	 * @param string       $dbname
+	 * @param string       $user
+	 * @param string       $pass
+	 * @param integer|null $port
+	 * @param array        $options
+	 *
 	 * @return bool
 	 */
 	public function connect( $host, $dbname, $user, $pass, $port = null, $options = array() ) {
@@ -134,6 +154,7 @@ class wpdb_driver_pdo_pgsql extends wpdb_driver {
 
 	/**
 	 * Ping a server connection or reconnect if there is no connection
+	 *
 	 * @return bool
 	 */
 	public function ping() {
@@ -152,7 +173,9 @@ class wpdb_driver_pdo_pgsql extends wpdb_driver {
 
 	/**
 	 * Perform a MySQL database query, using current database connection.
+	 *
 	 * @param string $query Database query
+	 *
 	 * @return int|false Number of rows affected/selected or false on error
 	 */
 	public function query( $query ) {
@@ -189,8 +212,10 @@ class wpdb_driver_pdo_pgsql extends wpdb_driver {
 
 	/**
 	 * Get result data.
-	 * @param int The row number from the result that's being retrieved. Row numbers start at 0.
-	 * @param int The offset of the field being retrieved.
+	 *
+	 * @param int $row   The row number from the result that's being retrieved. Row numbers start at 0.
+	 * @param int $field The offset of the field being retrieved.
+	 *
 	 * @return array|false The contents of one cell from a MySQL result set on success, or false on failure.
 	 */
 	public function query_result( $row, $field = 0 ) {
@@ -203,6 +228,7 @@ class wpdb_driver_pdo_pgsql extends wpdb_driver {
 
 	/**
 	 * Get number of rows affected
+	 *
 	 * @return int
 	 */
 	public function affected_rows() {
@@ -214,6 +240,7 @@ class wpdb_driver_pdo_pgsql extends wpdb_driver {
 
 	/**
 	 * Get last insert id
+	 *
 	 * @return int
 	 */
 	public function insert_id() {
@@ -222,6 +249,7 @@ class wpdb_driver_pdo_pgsql extends wpdb_driver {
 
 	/**
 	 * Get results
+	 *
 	 * @return array
 	 */
 	public function get_results() {
@@ -244,6 +272,7 @@ class wpdb_driver_pdo_pgsql extends wpdb_driver {
 
 	/**
 	 * Load the column metadata from the last query.
+	 *
 	 * @return array
 	 */
 	public function load_col_info() {
@@ -262,15 +291,19 @@ class wpdb_driver_pdo_pgsql extends wpdb_driver {
 
 	/**
 	 * The database version number.
+	 *
 	 * @return false|string false on failure, version number on success
 	 */
 	public function db_version() {
 		return preg_replace( '/[^0-9.].*/', '', $this->dbh->getAttribute( PDO::ATTR_SERVER_VERSION ) );
 	}
 
-
 	/**
 	 * Determine if a database supports a particular feature.
+	 *
+	 * @param string $db_cap
+	 *
+	 * @return bool
 	 */
 	public function has_cap( $db_cap ) {
 		$db_cap = strtolower( $db_cap );
@@ -284,9 +317,9 @@ class wpdb_driver_pdo_pgsql extends wpdb_driver {
 		return $version;
 	}
 
-
 	/**
 	 * Don't save any state.  The db wrapper should call connect() again.
+	 *
 	 * @return array
 	 */
 	public function __sleep() {
